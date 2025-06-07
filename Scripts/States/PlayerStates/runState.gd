@@ -28,16 +28,18 @@ func ExitState() -> void:
 func _physics_process(_delta: float) -> void:
 	actor.HorizontalMovement(actor.RunSpeed)
 	HandleState()
-	HandleAnimation()
 	
 	actor.move_and_slide()
+	
+	HandleAnimation()
 
 
 func HandleState() -> void:
 	if not actor.is_on_floor():
+		actor.coyoteTimer.start(actor.CoyoteTime)
 		emit_signal("toFalling")
 	elif actor.moveDirectionX != 0 and actor.keyRun:
-		if actor.keyJumpPressed and actor.is_on_floor():
+		if actor.keyJumpPressed:
 			actor.jumpForce = actor.WalkJumpForce
 			actor.jumpStartAnimation = "RunJumpStart"
 			actor.currentMoveSpeed = actor.RunSpeed
@@ -51,5 +53,9 @@ func HandleState() -> void:
 		#emit_signal("toSkidding")
 
 func HandleAnimation() -> void:
-	animator.play("Run")
-	actor.HandleFlipH()
+	if actor.velocity.x == 0.0:
+		animator.play("IdleStanding")
+		actor.HandleFlipH()
+	else:
+		animator.play("Run")
+		actor.HandleFlipH()

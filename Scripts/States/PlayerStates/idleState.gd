@@ -33,6 +33,7 @@ func _physics_process(_delta: float) -> void:
 
 func HandleState() -> void:
 	if not actor.is_on_floor():
+		actor.coyoteTimer.start(actor.CoyoteTime)
 		emit_signal("toFalling")
 	elif actor.moveDirectionX != 0:
 		if actor.keyRun:

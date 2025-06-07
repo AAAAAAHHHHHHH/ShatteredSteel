@@ -16,7 +16,6 @@ func _ready() -> void:
 
 
 func EnterState() -> void:
-	actor.coyoteTimer.start(actor.CoyoteTime)
 	set_physics_process(true)
 
 

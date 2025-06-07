@@ -9,6 +9,7 @@ extends CharacterBody2D
 @onready var collider: CollisionShape2D = %Collider
 @onready var jumpBufferTimer: Timer = %JumpBufferTimer
 @onready var coyoteTimer: Timer = %CoyoteTimer
+@onready var debugInfoHud: DebugInfo = %DebugInfoHud
 
 ## States
 @onready var mainFsm: FiniteStateMachine = %MainFSM
@@ -111,6 +112,9 @@ func _physics_process(_delta: float) -> void:
 	HandleBuffer()
 	
 	HandleTerminalVelosityX(_delta)
+	
+	debugInfoHud.currentPlayerState = str(mainFsm.state)
+	debugInfoHud.currentPlayerVelosity = str(velocity)
 
 #endregion
 

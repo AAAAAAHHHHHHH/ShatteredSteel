@@ -7,7 +7,6 @@ extends State
 #States
 signal toJumping
 
-
 func _ready() -> void:
 	set_physics_process(false)
 

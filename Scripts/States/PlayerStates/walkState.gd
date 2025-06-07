@@ -26,12 +26,13 @@ func ExitState() -> void:
 func _physics_process(_delta: float) -> void:
 	actor.HorizontalMovement(actor.WalkSpeed)
 	HandleState()
-	HandleAnimation()
+	
 	actor.move_and_slide()
-
+	HandleAnimation()
 
 func HandleState() -> void:
 	if not actor.is_on_floor():
+		actor.coyoteTimer.start(actor.CoyoteTime)
 		emit_signal("toFalling")
 	elif actor.moveDirectionX != 0:
 		if actor.keyRun:
@@ -47,5 +48,9 @@ func HandleState() -> void:
 
 
 func HandleAnimation() -> void:
-	animator.play("Walk")
-	actor.HandleFlipH()
+	if actor.velocity.x == 0.0:
+		animator.play("IdleStanding")
+		actor.HandleFlipH()
+	else:
+		animator.play("Walk")
+		actor.HandleFlipH()

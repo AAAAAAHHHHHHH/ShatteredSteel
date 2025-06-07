@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dmt6wef3sfm6d"]
+
+[ext_resource type="FontFile" uid="uid://bofbxm64vfq7t" path="res://Assets/Fonts/butler/Butler/Butler_Regular.otf" id="1_ipsnl"]
+
+[resource]
+font = ExtResource("1_ipsnl")
+font_size = 32
