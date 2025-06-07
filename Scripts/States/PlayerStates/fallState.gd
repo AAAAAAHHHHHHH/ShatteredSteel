@@ -16,6 +16,7 @@ func _ready() -> void:
 
 
 func EnterState() -> void:
+	actor.coyoteTimer.start(actor.CoyoteTime)
 	set_physics_process(true)
 
 
@@ -40,12 +41,17 @@ func HandleState() -> void:
 				emit_signal("toRuning")
 			else:
 				emit_signal("toWalking")
-		if actor.JumpBufferTimer.time_left > 0:
+		if actor.jumpBufferTimer.time_left > 0:
 			actor.jumpForce = actor.FollowUpJumpForce
 			actor.jumpStartAnimation = "IdleJumpStart"
 			emit_signal("toJumping")
 		else:
 			emit_signal("toIdle")
+	elif actor.coyoteTimer.time_left > 0 and actor.keyJumpPressed:
+		actor.jumpForce = actor.FollowUpJumpForce
+		actor.jumpStartAnimation = "RunJumpStart"
+		emit_signal("toJumping")
+	
 
 func HandleAnimation() -> void:
 	animator.play("Falling")

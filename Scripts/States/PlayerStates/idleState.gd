@@ -48,5 +48,5 @@ func HandleState() -> void:
 
 
 func HandleAnimation() -> void:
-	animator.play("StandingIdle")
+	animator.play("IdleStanding")
 	actor.HandleFlipH()

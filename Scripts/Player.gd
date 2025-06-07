@@ -4,12 +4,13 @@ extends CharacterBody2D
 #region Player Variables
 
 # Nodes
+## Misc
 @onready var sprite: Sprite2D = %Sprite
 @onready var collider: CollisionShape2D = %Collider
-#@onready var animator: AnimationPlayer = %Animator
-@onready var JumpBufferTimer: Timer = %JumpBuffer
+@onready var jumpBufferTimer: Timer = %JumpBufferTimer
 @onready var coyoteTimer: Timer = %CoyoteTimer
 
+## States
 @onready var mainFsm: FiniteStateMachine = %MainFSM
 @onready var playerIdle: PlayerIdle = %PlayerIdle
 @onready var playerSlowdown: PlayerSlowdown = %PlayerSlowdown
@@ -19,47 +20,49 @@ extends CharacterBody2D
 @onready var playerFalling: PlayerFalling = %PlayerFalling
 @onready var PlayerJumping: PlayerJumpState = %PlayerJump
 
-# Physics variables
-const WalkSpeed: float = 150.0
-const RunSpeed: float = 350.0
-const QuickStepBufferTime: float = 0.2 # 12 frames = 12/60
-
-const AirSpeed: float = 50.0
-const AirAccelration: float = 5.0
-const AirDeceleration: float = 1.0
-const Acceleration: float = 50.0
-const Deceleration: float = 40.0
-const StoppingDeceleration: float = 1.0
-const TerminalVelocityY: float = 44345.0 # ~530 km/h
-const TerminalVelocityX: float = 15897.0 # ~190 km/h
+# Physics Constants & Varibles
+## Drag
+const TerminalVelocityY: float = 44000.0 # ~530 km/h
+const TerminalVelocityX: float = 16000.0 # ~190 km/h
 const DragCoefficientY: float = 0.001 # TODO: fine tune this varibles
 const DragCoefficientYUp: float = 0.001
 const DragCoefficientX: float = 0.008
 
-const MaxJumps: int = 2
-const JumpLurchForce: float = 500.0 
-const FollowUpJumpForce: float = -300
-const IdleJumpForce: float = -400.0
-const WalkJumpForce: float = -500.0
-const RunJumpForce: float = -600.0
+## Movement X
+const WalkSpeed: float = 420.0 
+const RunSpeed: float = 1000.0 
+const AirSpeed: float = 420.0
+const Acceleration: float = 400.0
+const Deceleration: float = 360.0
+const AirAccelration: float = 5.0
+const AirDeceleration: float = 1.0
+const SidingDeceleration: float = 1.0 
 
+
+## Movement Y
+const JumpLurchForce: float = 500.0 
+const FollowUpJumpForce: float = -600.0
+const IdleJumpForce: float = -600.0
+const WalkJumpForce: float = -500.0
+const RunJumpForce: float = -400.0
 const GravityJump: float = 980.0
 const GravityFall: float = 1024.0
 const VariableJumpMultiplyer: float = 0.95
-const JumpBufferTime: float = 0.15 # 9 frames
-const CoyoteTime: float = 0.05 # 3 frames
 
-# Physical Varibles
-var jumps: int = 0
 var jumpForce: float = 0.0
 var moveDirectionX: float = 0.0
 var facing: int = 1
 var canLurch: bool = true
-
+var currentMoveSpeed: float = 0.0
 var jumpStartAnimation: String = "IdleJumpStart"
-var currentMoveSpeed: float
 
 # Input variables
+## Buffering
+const QuickStepBufferTime: float = 0.2 # 12 frames = 12/60
+const CoyoteTime: float = 0.1 # 6 frames
+const JumpBufferTime: float = 0.15 # 9 frames
+
+## Key Presses
 var keyUp: bool = false
 var keyDown: bool = false
 var keyLeft: bool = false
@@ -102,8 +105,11 @@ func _ready() -> void:
 	HandleJumpingStateSwitching()
 
 func _physics_process(_delta: float) -> void:
+	
 	GetInputState()
+	
 	HandleBuffer()
+	
 	HandleTerminalVelosityX(_delta)
 
 #endregion
@@ -171,15 +177,6 @@ func HandleGravity(delta: float, gravity: float = GravityJump) -> float:
 	
 	return velocity.y
 
-
-func HandleJump() -> void:
-	if jumps < MaxJumps:
-		if keyJumpPressed:
-			jumps += 1
-			velocity.y = jumpForce
-		if JumpBufferTimer.time_left > 0:
-			JumpBufferTimer.stop()
-
 #TODO: implemnt JumpLurch
 func HandleJumpLurch() -> float:
 	#the ablity to change directon rapidly in air
@@ -192,7 +189,7 @@ func HandleJumpLurch() -> float:
 
 func HandleBuffer() -> void:
 	if keyJumpPressed:
-		JumpBufferTimer.start(JumpBufferTime)
+		jumpBufferTimer.start(JumpBufferTime)
 	#if keyQuickStep:
 		#inputBufferTimer.start(QuickStepBufferTime)
 
