@@ -1,9 +1,8 @@
-[gd_scene load_steps=26 format=3 uid="uid://dyeqfl8b43yw2"]
+[gd_scene load_steps=28 format=3 uid="uid://dyeqfl8b43yw2"]
 
 [ext_resource type="Script" uid="uid://hrcgcwwbv5kh" path="res://Scripts/Player.gd" id="1_ka4io"]
 [ext_resource type="Texture2D" uid="uid://buwxb1evi7yl8" path="res://Assets/Player.png" id="2_uwkt8"]
 [ext_resource type="Script" uid="uid://ijb7mljfpwcm" path="res://Scripts/Resources/finiteStateMachine.gd" id="3_ghsau"]
-[ext_resource type="PackedScene" uid="uid://c2tx58327drr6" path="res://Scenes/UI/debugInfoHud.tscn" id="3_yk0uc"]
 [ext_resource type="Script" uid="uid://dw4pw3b1ujxtn" path="res://Scripts/States/PlayerStates/idleState.gd" id="4_051wf"]
 [ext_resource type="Script" uid="uid://x5i0dl30cssp" path="res://Scripts/States/PlayerStates/fallState.gd" id="5_hvqaw"]
 [ext_resource type="Script" uid="uid://cri5hnxskavfs" path="res://Scripts/States/PlayerStates/walkState.gd" id="6_w128n"]
@@ -189,6 +188,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(12.49, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_eepyi"]
 resource_name = "Run"
@@ -287,6 +298,70 @@ tracks/1/keys = {
 "values": [42, 43]
 }
 
+[sub_resource type="Animation" id="Animation_uwkt8"]
+resource_name = "WallKick"
+length = 0.375004
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0416667, 0.125, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [57, 58, 59, 60]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:position")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.208333, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(29, 0), Vector2(29, 0), Vector2(12.49, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_yk0uc"]
+resource_name = "WallJump"
+length = 0.0416709
+loop_mode = 1
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [61]
+}
+
+[sub_resource type="Animation" id="Animation_ejfu8"]
+resource_name = "WallLand"
+length = 0.166671
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0833333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [62, 63]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qumrt"]
 _data = {
 &"Falling": SubResource("Animation_ttkxq"),
@@ -300,7 +375,10 @@ _data = {
 &"Run": SubResource("Animation_eepyi"),
 &"RunJumpStart": SubResource("Animation_rc7sg"),
 &"Walk": SubResource("Animation_6f2l2"),
-&"WalkJumpStart": SubResource("Animation_410xb")
+&"WalkJumpStart": SubResource("Animation_410xb"),
+&"WallJump": SubResource("Animation_yk0uc"),
+&"WallKick": SubResource("Animation_uwkt8"),
+&"WallLand": SubResource("Animation_ejfu8")
 }
 
 [node name="Player" type="CharacterBody2D"]
@@ -400,8 +478,9 @@ one_shot = true
 [node name="WallJump" type="Node2D" parent="Raycasts"]
 
 [node name="BottomLeft" type="RayCast2D" parent="Raycasts/WallJump"]
+position = Vector2(-4, 85)
+target_position = Vector2(-50, 0)
 
 [node name="BottomRight" type="RayCast2D" parent="Raycasts/WallJump"]
-
-[node name="DebugInfoHud" parent="." instance=ExtResource("3_yk0uc")]
-unique_name_in_owner = true
+position = Vector2(-4, 85)
+target_position = Vector2(50, 0)

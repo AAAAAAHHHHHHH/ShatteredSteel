@@ -15,36 +15,45 @@ func _ready() -> void:
 	set_physics_process(false)
 
 
-func EnterState() -> void:
+func enterState() -> void:
 	set_physics_process(true)
+	
 	actor.velocity.y = actor.jumpForce
 
 
 func _physics_process(_delta: float) -> void:
-	actor.HandleGravity(_delta, actor.GravityJump)
-	actor.HorizontalMovement(actor.AirSpeed, actor.AirAccelration, actor.AirDeceleration)
-	HandleAnimation()
-	HandleState()
+	actor.handleGravity(_delta, actor.GravityJump)
+	
+	actor.horizontalMovement(actor.AirSpeed, actor.AirAccelration, actor.AirDeceleration) #TODO: find a way on losing all velosity
+	
+	handleAnimation()
+	
+	handleState()
+	
 	actor.move_and_slide()
 
 
-func ExitState() -> void:
+func exitState() -> void:
 	set_physics_process(false)
 
 
-func HandleState() -> void:
+func handleState() -> void:
 	if not actor.is_on_floor():
+		
 		if actor.velocity.y > 0:
 			emit_signal("toFalling")
+			
+			
 		if not actor.keyJump:
 			actor.velocity.y *= actor.VariableJumpMultiplyer
+			
 	else:
 		emit_signal("toLanding")
 
 
-func HandleAnimation() -> void:
+func handleAnimation() -> void:
 	animator.play(jumpIdleAnimation)
 
-func HandleAirMovement() -> float:
+func handleAirMovement() -> float:
 	
 	return airMovement

@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://q500vour4clq"]
+
+[ext_resource type="Script" uid="uid://cjtw20j4rikaq" path="res://peformence_test.gd" id="1_6kxap"]
+[ext_resource type="Texture2D" uid="uid://d04try2tfmd1w" path="res://Player0057.png" id="1_s4p2q"]
+[ext_resource type="Texture2D" uid="uid://dx82wmsptpcjl" path="res://Player0065.png" id="2_6kxap"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_puubi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_s4p2q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_6kxap")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 1.0
+}]
+
+[node name="PeformenceTest" type="Node2D"]
+script = ExtResource("1_6kxap")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(592, 281)
+sprite_frames = SubResource("SpriteFrames_puubi")
+animation = &"Idle"
+frame_progress = 0.249072

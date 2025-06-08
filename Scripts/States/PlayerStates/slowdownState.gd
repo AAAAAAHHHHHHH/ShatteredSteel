@@ -19,22 +19,25 @@ func _ready() -> void:
 	set_physics_process(false)
 
 
-func EnterState() -> void:
+func enterState() -> void:
 	set_physics_process(true)
+	
 	runStopIdle = false
 
 
-func ExitState() -> void:
+func exitState() -> void:
 	set_physics_process(false)
 
 
 func _physics_process(_delta: float) -> void:
 	actor.HorizontalMovement(actor.WalkSpeed, actor.StoppingDeceleration, actor.StoppingDeceleration)
-	HandleState()
-	HandleAnimation()
+	
+	handleState()
+	
+	handleAnimation()
 
 
-func HandleState() -> void:
+func handleState() -> void:
 	if actor.is_on_floor():
 		if actor.velocity.x != 0:
 			if actor.keyRun:
@@ -47,7 +50,7 @@ func HandleState() -> void:
 		emit_signal("toFalling")
 
 
-func HandleAnimation() -> void:
+func handleAnimation() -> void:
 	animator.play("RunStop")
 	if runStopIdle:
 		animator.play("RunStopIdle")

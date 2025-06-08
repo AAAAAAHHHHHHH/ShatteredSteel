@@ -11,24 +11,29 @@ func _ready() -> void:
 	set_physics_process(false)
 
 
-func EnterState() -> void:
+func enterState() -> void:
 	set_physics_process(true)
 
 
-func ExitState() -> void:
+func exitState() -> void:
 	set_physics_process(false)
 
 
 func _physics_process(_delta: float) -> void:
-	actor.HorizontalMovement(actor.currentMoveSpeed)
-	HandleAnimation()
+	actor.horizontalMovement(actor.currentMoveSpeed)
+	
+	handleAnimation()
+	
+	handleState()
+	
 	actor.move_and_slide()
 
 
-func HandleState() -> void:
+func handleState() -> void:
 	emit_signal("toJumping")
 
 
-func HandleAnimation() -> void:
+func handleAnimation() -> void:
 	animator.play(actor.jumpStartAnimation)
-	actor.HandleFlipH()
+	
+	actor.handleFlipH()

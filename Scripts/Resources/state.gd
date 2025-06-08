@@ -1,9 +1,17 @@
 class_name State
 extends Node
 
-func EnterState() -> void:
+func enterState() -> void:
 	pass
 
 
-func ExitState() -> void:
+func exitState() -> void:
+	pass
+
+
+func handleState() -> void:
+	pass
+
+
+func handleAnimation() -> void:
 	pass

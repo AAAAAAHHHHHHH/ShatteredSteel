@@ -4,11 +4,11 @@ extends Node
 @export var state: State
 
 func _ready() -> void:
-	ChangeState(state)
+	changeState(state)
 
 
-func ChangeState(newState: State) -> void:
+func changeState(newState: State) -> void:
 	if state is State:
-		state.ExitState()
-		newState.EnterState()
+		state.exitState()
+		newState.enterState()
 	state = newState

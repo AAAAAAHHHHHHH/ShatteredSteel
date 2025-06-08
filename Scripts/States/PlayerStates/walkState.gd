@@ -4,53 +4,45 @@ extends State
 @export var actor: Player
 @export var animator: AnimationPlayer
 
-#states
-signal toFalling
-signal toRuning
-signal toIdle
-signal toJumping
 
 func _ready() -> void:
 	set_physics_process(false)
 
 
-func EnterState() -> void:
+func enterState() -> void:
 	set_physics_process(true)
+	actor.jumpForce = actor.WalkJumpForce
+	actor.jumpStartAnimation = "WalkJumpStart"
+	actor.currentMoveSpeed = actor.RunSpeed
 	actor.canLurch = true
 
 
-func ExitState() -> void:
+func exitState() -> void:
 	set_physics_process(false)
 
 
 func _physics_process(_delta: float) -> void:
-	actor.HorizontalMovement(actor.WalkSpeed)
-	HandleState()
+	actor.horizontalMovement(actor.WalkSpeed)
+	
+	handleState()
 	
 	actor.move_and_slide()
-	HandleAnimation()
+	
+	handleAnimation()
 
-func HandleState() -> void:
-	if not actor.is_on_floor():
-		actor.coyoteTimer.start(actor.CoyoteTime)
-		emit_signal("toFalling")
-	elif actor.moveDirectionX != 0:
-		if actor.keyRun:
-			emit_signal("toRuning")
-		else:
-			if actor.keyJumpPressed:
-				actor.currentMoveSpeed = actor.WalkSpeed
-				actor.jumpForce = actor.WalkJumpForce
-				actor.jumpStartAnimation = "WalkJumpStart"
-				emit_signal("toJumping")
+func handleState() -> void:
+	if actor.is_on_floor():
+		actor.handleIdleWalkRun()
 	else:
-		emit_signal("toIdle")
+		actor.coyoteTimer.start(actor.CoyoteTime)
+		actor.handleFalling()
+	actor.handleStartJumping()
 
 
-func HandleAnimation() -> void:
+func handleAnimation() -> void:
 	if actor.velocity.x == 0.0:
 		animator.play("IdleStanding")
-		actor.HandleFlipH()
+		actor.handleFlipH()
 	else:
 		animator.play("Walk")
-		actor.HandleFlipH()
+		actor.handleFlipH()
