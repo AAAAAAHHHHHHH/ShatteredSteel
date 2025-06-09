@@ -1,4 +1,4 @@
-# state.gd
+# playerFallState.gd
 #
 # This file is part of Shattered Steel.
 #
@@ -17,22 +17,44 @@
 #
 # Copyright (C) 2025 TeaOverDose
 
-# State class functions 
+# Handles player falling
 
-class_name State
-extends Node
+class_name PlayerFalling
+extends State
+
+@export var actor: Player
+@export var animator: AnimationPlayer
+
+func _ready() -> void:
+	set_physics_process(false)
+
 
 func enterState() -> void:
-	pass
+	set_physics_process(true)
 
 
 func exitState() -> void:
-	pass
+	set_physics_process(false)
+
+
+func _physics_process(_delta: float) -> void:
+	actor.handleBuffer()
+	
+	actor.handleGravity(_delta, actor.GravityFall)
+	
+	actor.handleHorizontalMomentum()
+	
+	actor.move_and_slide()
+	
+	handleState()
+	
+	handleAnimation()
 
 
 func handleState() -> void:
-	pass
-
+	if actor.is_on_floor():
+		actor.handleLanding()
+	
 
 func handleAnimation() -> void:
-	pass
+	animator.play("Falling")

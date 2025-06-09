@@ -1,4 +1,4 @@
-# state.gd
+# playerRunState.gd
 #
 # This file is part of Shattered Steel.
 #
@@ -17,22 +17,46 @@
 #
 # Copyright (C) 2025 TeaOverDose
 
-# State class functions 
+# Handles player runing
 
-class_name State
-extends Node
+class_name PlayerStartJump
+extends State
+
+@export var actor: Player
+@export var animator: AnimationPlayer
+
+#States
+signal to_jumping
+
+func _ready() -> void:
+	set_physics_process(false)
+
 
 func enterState() -> void:
-	pass
+	set_physics_process(true)
 
 
 func exitState() -> void:
-	pass
+	set_physics_process(false)
+
+
+func _physics_process(_delta: float) -> void:
+	actor.handleHorizontalMovement(actor.currentMoveSpeed)
+	
+	actor.handleTerminalVelosityX(_delta)
+	
+	handleAnimation()
+	
+	handleState()
+	
+	actor.move_and_slide()
 
 
 func handleState() -> void:
-	pass
+	emit_signal("to_jumping")
 
 
 func handleAnimation() -> void:
-	pass
+	animator.play(actor.jumpStartAnimation)
+	
+	actor.handleFlipH()

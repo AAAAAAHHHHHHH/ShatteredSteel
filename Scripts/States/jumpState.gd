@@ -6,7 +6,7 @@ extends State
 @export var jumpIdleAnimation: String
 
 #states
-signal toFalling
+signal to_falling
 signal toLanding
 
 func _ready() -> void:
@@ -20,7 +20,7 @@ func enterState() -> void:
 
 func _physics_process(_delta: float) -> void:
 	actor.handleGravity(_delta, actor.GravityJump)
-	actor.horizontalMovement(actor.AirSpeed, actor.AirAccelration, actor.AirDeceleration)
+	actor.handleHorizontalMovement(actor.AirSpeed, actor.AirAccelration, actor.AirDeceleration)
 	handleAnimation()
 	handleState()
 	actor.move_and_slide()
@@ -33,7 +33,7 @@ func exitState() -> void:
 func handleState() -> void:
 	if not actor.is_on_floor():
 		if actor.velocity.y > 0:
-			emit_signal("toFalling")
+			emit_signal("to_falling")
 	else:
 		emit_signal("toLanding")
 

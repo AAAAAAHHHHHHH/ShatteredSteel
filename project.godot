@@ -13,7 +13,7 @@ config_version=5
 config/name="Shattered Steel"
 run/main_scene="uid://bqw0aka2jwlfw"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://theGOATTheyAre_so_cool that they DoN_t follow ANY_STYLING-convention.svg"
 
 [debug]
 

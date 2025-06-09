@@ -1,15 +1,16 @@
-[gd_scene load_steps=28 format=3 uid="uid://dyeqfl8b43yw2"]
+[gd_scene load_steps=32 format=3 uid="uid://dyeqfl8b43yw2"]
 
-[ext_resource type="Script" uid="uid://hrcgcwwbv5kh" path="res://Scripts/Player.gd" id="1_ka4io"]
+[ext_resource type="Script" uid="uid://hrcgcwwbv5kh" path="res://Scripts/player.gd" id="1_ka4io"]
 [ext_resource type="Texture2D" uid="uid://buwxb1evi7yl8" path="res://Assets/Player.png" id="2_uwkt8"]
 [ext_resource type="Script" uid="uid://ijb7mljfpwcm" path="res://Scripts/Resources/finiteStateMachine.gd" id="3_ghsau"]
-[ext_resource type="Script" uid="uid://dw4pw3b1ujxtn" path="res://Scripts/States/PlayerStates/idleState.gd" id="4_051wf"]
-[ext_resource type="Script" uid="uid://x5i0dl30cssp" path="res://Scripts/States/PlayerStates/fallState.gd" id="5_hvqaw"]
-[ext_resource type="Script" uid="uid://cri5hnxskavfs" path="res://Scripts/States/PlayerStates/walkState.gd" id="6_w128n"]
-[ext_resource type="Script" uid="uid://bv8k3s3wpkusn" path="res://Scripts/States/PlayerStates/runState.gd" id="7_8vk4f"]
-[ext_resource type="Script" uid="uid://6lkky4hfymds" path="res://Scripts/States/PlayerStates/startJump.gd" id="8_8vk4f"]
-[ext_resource type="Script" uid="uid://dcc26a5kw02ts" path="res://Scripts/States/PlayerStates/slowdownState.gd" id="9_0xky0"]
-[ext_resource type="Script" uid="uid://dfn17g18i6x23" path="res://Scripts/States/PlayerStates/jumpState.gd" id="11_yk0uc"]
+[ext_resource type="Script" uid="uid://dw4pw3b1ujxtn" path="res://Scripts/States/PlayerStates/playerIdleState.gd" id="4_051wf"]
+[ext_resource type="Script" uid="uid://x5i0dl30cssp" path="res://Scripts/States/PlayerStates/playerFallState.gd" id="5_hvqaw"]
+[ext_resource type="Script" uid="uid://cri5hnxskavfs" path="res://Scripts/States/PlayerStates/playerWalkState.gd" id="6_w128n"]
+[ext_resource type="Script" uid="uid://bv8k3s3wpkusn" path="res://Scripts/States/PlayerStates/playerRunState.gd" id="7_8vk4f"]
+[ext_resource type="Script" uid="uid://6lkky4hfymds" path="res://Scripts/States/PlayerStates/playerJumpStart.gd" id="8_8vk4f"]
+[ext_resource type="Script" uid="uid://dcc26a5kw02ts" path="res://Scripts/States/PlayerStates/playerSlowdownState.gd" id="9_0xky0"]
+[ext_resource type="Script" uid="uid://cbwegb4p7jueg" path="res://Scripts/States/PlayerStates/playerLandState.gd" id="11_epbei"]
+[ext_resource type="Script" uid="uid://dfn17g18i6x23" path="res://Scripts/States/PlayerStates/playerJumpState.gd" id="11_yk0uc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2846a"]
 radius = 37.0
@@ -33,6 +34,37 @@ tracks/0/keys = {
 "values": [52, 53]
 }
 
+[sub_resource type="Animation" id="Animation_7j23p"]
+resource_name = "FastJumpStart"
+length = 0.0208354
+step = 0.0208333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(6, 2)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainFSM/PlayerStartJump")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0208333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"handleState"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_j60po"]
 resource_name = "HighLand"
 length = 0.333338
@@ -48,6 +80,24 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [54, 55, 56]
+}
+
+[sub_resource type="Animation" id="Animation_bkqu3"]
+resource_name = "IdleJump"
+length = 0.500005
+loop_mode = 1
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [40, 41]
 }
 
 [sub_resource type="Animation" id="Animation_1bstl"]
@@ -98,26 +148,8 @@ tracks/0/keys = {
 "values": [14, 15]
 }
 
-[sub_resource type="Animation" id="Animation_bkqu3"]
-resource_name = "JumpIdle"
-length = 0.500005
-loop_mode = 1
-step = 0.0416667
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.208333),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [40, 41]
-}
-
 [sub_resource type="Animation" id="Animation_0cceh"]
-resource_name = "Landing"
+resource_name = "Land"
 length = 0.208338
 step = 0.0416667
 tracks/0/type = "value"
@@ -132,10 +164,22 @@ tracks/0/keys = {
 "update": 1,
 "values": [54, 55, 56]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainFSM/PlayerLanding:canChangeStates")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.208333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_epbei"]
-resource_name = "LowLanding"
-length = 0.125004
+resource_name = "LowLand"
+length = 0.0833376
 step = 0.0416667
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -148,6 +192,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [54, 56]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainFSM/PlayerLanding:canChangeStates")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0833333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_paosx"]
@@ -200,6 +256,30 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(12.49, 0)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("MainFSM/PlayerLanding:canChangeStates")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprite:frame_coords")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(6, 2)]
+}
 
 [sub_resource type="Animation" id="Animation_eepyi"]
 resource_name = "Run"
@@ -217,6 +297,24 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_ex721"]
+resource_name = "RunJump"
+length = 0.500005
+loop_mode = 1
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [50, 51]
 }
 
 [sub_resource type="Animation" id="Animation_rc7sg"]
@@ -267,6 +365,24 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3]
 }
 
+[sub_resource type="Animation" id="Animation_7yu45"]
+resource_name = "WalkJump"
+length = 0.500005
+loop_mode = 1
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [45, 46]
+}
+
 [sub_resource type="Animation" id="Animation_410xb"]
 resource_name = "WalkJumpStart"
 length = 0.125004
@@ -298,6 +414,24 @@ tracks/1/keys = {
 "values": [42, 43]
 }
 
+[sub_resource type="Animation" id="Animation_yk0uc"]
+resource_name = "WallJump"
+length = 0.0416709
+loop_mode = 1
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [61]
+}
+
 [sub_resource type="Animation" id="Animation_uwkt8"]
 resource_name = "WallKick"
 length = 0.375004
@@ -327,24 +461,6 @@ tracks/1/keys = {
 "values": [Vector2(29, 0), Vector2(29, 0), Vector2(12.49, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_yk0uc"]
-resource_name = "WallJump"
-length = 0.0416709
-loop_mode = 1
-step = 0.0416667
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [61]
-}
-
 [sub_resource type="Animation" id="Animation_ejfu8"]
 resource_name = "WallLand"
 length = 0.166671
@@ -365,16 +481,19 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qumrt"]
 _data = {
 &"Falling": SubResource("Animation_ttkxq"),
+&"FastJumpStart": SubResource("Animation_7j23p"),
 &"HighLand": SubResource("Animation_j60po"),
+&"IdleJump": SubResource("Animation_bkqu3"),
 &"IdleJumpStart": SubResource("Animation_1bstl"),
 &"IdleStanding": SubResource("Animation_8iqms"),
-&"JumpIdle": SubResource("Animation_bkqu3"),
-&"Landing": SubResource("Animation_0cceh"),
-&"LowLanding": SubResource("Animation_epbei"),
+&"Land": SubResource("Animation_0cceh"),
+&"LowLand": SubResource("Animation_epbei"),
 &"RESET": SubResource("Animation_paosx"),
 &"Run": SubResource("Animation_eepyi"),
+&"RunJump": SubResource("Animation_ex721"),
 &"RunJumpStart": SubResource("Animation_rc7sg"),
 &"Walk": SubResource("Animation_6f2l2"),
+&"WalkJump": SubResource("Animation_7yu45"),
 &"WalkJumpStart": SubResource("Animation_410xb"),
 &"WallJump": SubResource("Animation_yk0uc"),
 &"WallKick": SubResource("Animation_uwkt8"),
@@ -391,6 +510,7 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_uwkt8")
 hframes = 16
 vframes = 8
+frame = 38
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
@@ -448,6 +568,13 @@ actor = NodePath("../..")
 animator = NodePath("../../Animator")
 metadata/_custom_type_script = "uid://6lkky4hfymds"
 
+[node name="PlayerJump" type="Node" parent="MainFSM" node_paths=PackedStringArray("actor", "animator")]
+unique_name_in_owner = true
+script = ExtResource("11_yk0uc")
+actor = NodePath("../..")
+animator = NodePath("../../Animator")
+metadata/_custom_type_script = "uid://dfn17g18i6x23"
+
 [node name="PlayerFalling" type="Node" parent="MainFSM" node_paths=PackedStringArray("actor", "animator")]
 unique_name_in_owner = true
 script = ExtResource("5_hvqaw")
@@ -455,22 +582,20 @@ actor = NodePath("../..")
 animator = NodePath("../../Animator")
 metadata/_custom_type_script = "uid://x5i0dl30cssp"
 
-[node name="PlayerJump" type="Node" parent="MainFSM" node_paths=PackedStringArray("actor", "animator")]
+[node name="PlayerLanding" type="Node" parent="MainFSM" node_paths=PackedStringArray("actor", "animator")]
 unique_name_in_owner = true
-script = ExtResource("11_yk0uc")
+script = ExtResource("11_epbei")
 actor = NodePath("../..")
 animator = NodePath("../../Animator")
-jumpIdleAnimation = "JumpIdle"
-metadata/_custom_type_script = "uid://dfn17g18i6x23"
+metadata/_custom_type_script = "uid://cbwegb4p7jueg"
 
 [node name="Timers" type="Node" parent="."]
 
-[node name="JumpBufferTimer" type="Timer" parent="Timers"]
+[node name="CoyoteTimer" type="Timer" parent="Timers"]
 unique_name_in_owner = true
 one_shot = true
 
-[node name="CoyoteTimer" type="Timer" parent="Timers"]
-unique_name_in_owner = true
+[node name="BufferTimer" type="Timer" parent="Timers"]
 one_shot = true
 
 [node name="Raycasts" type="Node2D" parent="."]

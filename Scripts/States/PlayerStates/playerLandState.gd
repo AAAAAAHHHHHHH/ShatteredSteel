@@ -1,4 +1,4 @@
-# state.gd
+# playerLandState.gd
 #
 # This file is part of Shattered Steel.
 #
@@ -17,22 +17,52 @@
 #
 # Copyright (C) 2025 TeaOverDose
 
-# State class functions 
+# Handles player landing and hoping
 
-class_name State
-extends Node
+class_name PlayerLanding
+extends State
+
+@export var actor: Player
+@export var animator: AnimationPlayer
+@export var canChangeStates: bool
+
+
+func _ready() -> void:
+	set_physics_process(false)
+
 
 func enterState() -> void:
-	pass
+	set_physics_process(true)
+	canChangeStates = false
 
 
 func exitState() -> void:
-	pass
+	set_physics_process(false)
+
+
+func _physics_process(_delta: float) -> void:
+	actor.handleHorizontalMomentum(actor.SlidingDecelaration)
+	
+	actor.handleTerminalVelosityX(_delta)
+	
+	handleAnimation()
+	
+	handleState()
+	
+	actor.move_and_slide()
 
 
 func handleState() -> void:
-	pass
+	actor.handleStartJumping()
+	if canChangeStates:
+		actor.handleIdleWalkRun()
+		if not actor.is_on_floor():
+			actor.coyoteTimer.start(actor.CoyoteTime)
+			actor.handleFalling()
+
 
 
 func handleAnimation() -> void:
-	pass
+	animator.play("LowLand")
+	
+	actor.handleFlipH()

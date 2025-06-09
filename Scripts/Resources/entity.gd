@@ -1,3 +1,24 @@
+# entity.gd
+#
+# This file is part of Shattered Steel.
+#
+# Shattered Steel is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Shattered Steel is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Shattered Steel.  If not, see <https://www.gnu.org/licenses/>.
+#
+# Copyright (C) 2025 TeaOverDose
+
+# Entity class functions and varibles
+
 class_name Entity
 extends CharacterBody2D
 
@@ -26,14 +47,14 @@ const GravityFall: float = 1000.0
 const MaxFallSpeed: float = 450.0
 
 # Physical Varibles
-var jumpForce: float = 0.0
-var moveDirectionX: float = 0.0
-var facing: int = 1
+@export var jumpForce: float = 0.0
+@export var moveDirectionX: float = 0.0
+@export var facing: int = 1
 
 # AI varibles 
-var reactionTime: float = 0.25
-var adrenalineLevel: int = 0 #0 to 255
-var adrenalineFactor: Array = [1.0, 0.95, 0.9, 0.85, 0.8, 0.75, 0.70, 0.65, 0.60, 0.55, 0.50,] # the amount by reaction time dercrece at given adrenaline intervales 
+@export var reactionTime: float = 0.25
+@export var adrenalineLevel: int = 0 #0 to 255
+@export var adrenalineFactor: Array = [1.0, 0.95, 0.9, 0.85, 0.8, 0.75, 0.70, 0.65, 0.60, 0.55, 0.50,] # the amount by reaction time dercrece at given adrenaline intervales 
 
 func getDirection() -> float:
 	#TODO: do a more robust system.
@@ -41,7 +62,7 @@ func getDirection() -> float:
 	return moveDirectionX
 
 
-func horizontalMovement(moveSpeed: float, acceleration: float, deceleration: float) -> float:
+func handleHorizontalMovement(moveSpeed: float, acceleration: float, deceleration: float) -> float:
 	getDirection()
 	
 	if moveDirectionX != 0.0:

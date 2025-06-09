@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://ns3ahwnecg6i"]
 
-[ext_resource type="Texture2D" uid="uid://1aegr4bam677" path="res://icon.svg" id="1_2lauy"]
+[ext_resource type="Texture2D" uid="uid://1aegr4bam677" path="res://theGOATTheyAre_so_cool that they DoN_t follow ANY_STYLING-convention.svg" id="1_2lauy"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_37cqk"]
 closed = false

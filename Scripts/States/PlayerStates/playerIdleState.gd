@@ -1,4 +1,4 @@
-# state.gd
+# playerIdleState.gd
 #
 # This file is part of Shattered Steel.
 #
@@ -17,22 +17,45 @@
 #
 # Copyright (C) 2025 TeaOverDose
 
-# State class functions 
+# Handles plryer while staying still
 
-class_name State
-extends Node
+class_name PlayerIdle
+extends State
+
+@export var actor: Player
+@export var animator: AnimationPlayer
+
+
+func _ready() -> void:
+	set_physics_process(false)
+
 
 func enterState() -> void:
-	pass
+	set_physics_process(true)
 
 
 func exitState() -> void:
-	pass
+	set_physics_process(false)
+
+
+func _physics_process(_delta: float) -> void:
+	actor.handleHorizontalMomentum(actor.GroundDeceleration)
+	
+	actor.handleTerminalVelosityX(_delta)
+	
+	handleState()
+	
+	handleAnimation()
 
 
 func handleState() -> void:
-	pass
+	actor.handleIdleWalkRun()
+	actor.handleStartJumping()
+	if not actor.is_on_floor():
+		actor.coyoteTimer.start(actor.CoyoteTime)
+		actor.handleFalling()
 
 
 func handleAnimation() -> void:
-	pass
+	animator.play("IdleStanding")
+	actor.handleFlipH()

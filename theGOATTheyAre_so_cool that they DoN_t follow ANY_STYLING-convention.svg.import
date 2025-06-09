@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dx82wmsptpcjl"
-path="res://.godot/imported/Player0065.png-3db51bd8ac2702afefc4ebd86efd7fea.ctex"
+uid="uid://1aegr4bam677"
+path="res://.godot/imported/theGOATTheyAre_so_cool that they DoN_t follow ANY_STYLING-convention.svg-b292aedf4f231a659f2ee86af5be0cc1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Player0065.png"
-dest_files=["res://.godot/imported/Player0065.png-3db51bd8ac2702afefc4ebd86efd7fea.ctex"]
+source_file="res://theGOATTheyAre_so_cool that they DoN_t follow ANY_STYLING-convention.svg"
+dest_files=["res://.godot/imported/theGOATTheyAre_so_cool that they DoN_t follow ANY_STYLING-convention.svg-b292aedf4f231a659f2ee86af5be0cc1.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false
